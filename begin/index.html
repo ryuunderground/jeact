@@ -12,29 +12,31 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ aloe, small }) {
-      console.log(small);
+    function Btn({ text, changeValue }) {
+      console.log(text, "was rendered");
       return (
         <button
+          onClick={changeValue}
           style={{
             backgroundColor: "tomato",
             color: "white",
             padding: "10px 20px",
             border: "5px solid blue",
             borderRadius: 10,
-            fontSize: small ? "14px" : "25px",
           }}
         >
-          {aloe}
+          {text}
         </button>
       );
     }
-
+    const MemorizedBtn = React.memo(Btn);
     function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Reversee Changes");
       return (
         <div>
-          <Btn aloe="Save Changes" small={false} />
-          <Btn aloe="Continue" small={true} />
+          <MemorizedBtn text={value} changeValue={changeValue} />
+          <MemorizedBtn text="Continue" />
         </div>
       );
     }
